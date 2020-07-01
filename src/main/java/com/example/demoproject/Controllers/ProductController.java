@@ -2,6 +2,7 @@ package com.example.demoproject.Controllers;
 
 import com.example.demoproject.Models.Product;
 import com.example.demoproject.Repos.ProductRepo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @Controller
 public class ProductController {
+
+    @Value("${filestack.api.key}")
+    private String apiKey;
 
     ProductRepo productDao;
 
@@ -28,7 +32,8 @@ public class ProductController {
     }
 
     @GetMapping("/product/create")
-    public String createAProductView(){
+    public String createAProductView(Model model){
+            model.addAttribute("apiKey", apiKey);
         return "product/create";
     }
 
