@@ -5,10 +5,7 @@ import com.example.demoproject.Repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +14,8 @@ public class ProductController {
 
     @Value("${filestack.api.key}")
     private String apiKey;
+
+
 
     ProductRepo productDao;
 
@@ -33,19 +32,17 @@ public class ProductController {
 
     @GetMapping("/product/create")
     public String createAProductView(Model model){
+            model.addAttribute("product", new Product());
             model.addAttribute("apiKey", apiKey);
         return "product/create";
     }
 
     @PostMapping("/product/create")
-    public String createAProduct(
-            @RequestParam(name = "product_name") String productName,
-            @RequestParam(name = "product_description") String productDescription,
-            @RequestParam(name = "product_price") float productPrice,
-            @RequestParam(name = "product_image_url") String productImgUrl
+    public String createAProduct(@ModelAttribute Product product
+
     ){
-        Product productToAdd = new Product(productName,productDescription,productPrice,productImgUrl);
-        Product productInDB = productDao.save(productToAdd);
+
+        Product productInDB = productDao.save(product);
 
         return "redirect:/product/" + productInDB.getId();
     }
