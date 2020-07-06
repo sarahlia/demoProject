@@ -89,4 +89,10 @@ public class ProductController {
         return "redirect:/products";
     }
 
+
+    @GetMapping("/impossible")
+    public String cantbeThisEasy(Model model){
+        model.addAttribute("apiKey", apiKey);
+        return "product/impossible";
+    }
 }
